@@ -28,6 +28,7 @@ exports.deleteTransformers = catchAsync(async (req, res, next) => {
   });
 });
 
+// Returns transformers with healthIndex less than 16%
 exports.badTransformers = catchAsync(async (req, res, next) => {
   const transformers = await Transformer.find({ healthIndex: { $lte: 16 } });
   res.status(200).json({
