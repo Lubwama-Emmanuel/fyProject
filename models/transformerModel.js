@@ -36,7 +36,7 @@ const transformerSchema = new mongoose.Schema({
     type: Number,
     required: [true],
   },
-  DBMS: {
+  DBDS: {
     type: Number,
     required: [true],
   },
