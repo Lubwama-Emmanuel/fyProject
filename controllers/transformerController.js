@@ -1,8 +1,15 @@
 const Transformer = require("../models/transformerModel");
 const catchAsync = require("../utils/catchAsync");
 
-exports.addTransformer = catchAsync(async (req, res, next) => {
-  const transformer = await Transformer.create(req.body);
+exports.updateTransformer = catchAsync(async (req, res, next) => {
+  const transformer = await Transformer.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {
+      runValidators: true,
+      new: true,
+    }
+  );
   res.status(201).json({
     status: "success",
     data: {
