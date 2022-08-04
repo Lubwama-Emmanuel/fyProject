@@ -3,6 +3,7 @@ const router = express.Router();
 const importCsv = require("../importCsv");
 const transformerController = require("../controllers/transformerController");
 
+router.post("/addTransformer", transformerController.addTransformer)
 router.patch("/updateTransformer", transformerController.updateTransformer);
 router.get("/getAllTransformers", transformerController.getAllTransformers);
 router.get("/badTransformers", transformerController.badTransformers);

@@ -5,7 +5,7 @@ exports.parseCsv = async (req, res) => {
   csvtojson()
     .fromFile("transformer_csv.csv")
     .then((csvData) => {
-      Transformer.insertMany(csvData)
+      Transformer.create(csvData)
         .then(function () {
           console.log("Data inserted");
           res.status(201).json({
