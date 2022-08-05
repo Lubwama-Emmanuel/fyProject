@@ -2,9 +2,10 @@ const Transformer = require("../models/transformerModel");
 const catchAsync = require("../utils/catchAsync");
 
 exports.addTransformer = catchAsync(async (req, res, next) => {
-  const countDocuments = await Transformer.countDocuments();
-  let numberToString = countDocuments.toString();
-  // If length of number string is less that 9 then add zeros
+  // // const countDocuments = await Transformer.countDocuments();
+  // // let numberToString = countDocuments.toString();
+  // let numberToString = 500;
+  // // If length of number string is less that 9 then add zeros
   // if (numberToString.length < 9) {
   //   for (let i = numberToString.length; i < 9; i++) {
   //     numberToString = "00" + numberToString;
@@ -15,9 +16,9 @@ exports.addTransformer = catchAsync(async (req, res, next) => {
   //     numberToString = "00" + numberToString;
   //   }
   // }
-  console.log(numberToString);
+  // console.log(numberToString);
   const transformer = await Transformer.create({
-    transformerId: `TRANS-${numberToString}`,
+    // transformerId: `TRANS-${numberToString}`,
     hydrogen: req.body.hydrogen,
     oxygen: req.body.oxygen,
     nitrogen: req.body.nitrogen,
@@ -62,9 +63,14 @@ exports.updateTransformer = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllTransformers = catchAsync(async (req, res, next) => {
+  const countDocuments = await Transformer.countDocuments();
+  let numberToString = countDocuments.toString();
+  console.log(numberToString);
   const transformers = await Transformer.find({}, { _id: false, __v: false });
+  console.log(transformers.length);
   res.status(201).json({
     status: "success",
+    total: transformers.length,
     data: {
       transformers,
     },
@@ -80,7 +86,10 @@ exports.deleteTransformers = catchAsync(async (req, res, next) => {
 
 // Returns transformers with healthIndex less than 16%
 exports.badTransformers = catchAsync(async (req, res, next) => {
-  const transformers = await Transformer.find({ healthIndex: { $lte: 16 } });
+  const transformers = await Transformer.find(
+    { healthIndex: { $lte: 16 } },
+    { _id: false, __v: false }
+  );
   res.status(200).json({
     status: "Success",
     total: transformers.length,

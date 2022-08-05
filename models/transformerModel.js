@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const transformerSchema = new mongoose.Schema({
   transformerId: {
     type: String,
-    unique: true
+    unique: true,
   },
   hydrogen: {
     type: Number,
@@ -69,6 +69,7 @@ const transformerSchema = new mongoose.Schema({
     required: [true],
   },
 });
+
 function generate(n) {
   var add = 1,
     max = 12 - add; // 12 is the min safe number Math.random() can generate without it starting to pad the end with zeros.
@@ -84,11 +85,9 @@ function generate(n) {
   return ("" + number).substring(add);
 }
 transformerSchema.pre("save", async function (next) {
-  // const countDocuments = await Transformer.countDocuments();
-  // let numberToString = countDocuments.toString();
+  const countDocuments = await Transformer.countDocuments();
+  let numberToString = countDocuments.toString();
   console.log("Reached pre save");
-  this.transformerId = `TRANS-${generate(3)}`;
-  return next();
+  return (this.transformerId = `TRANS-${generate(5)}`);
 });
-const Transformer = mongoose.model("Transformer", transformerSchema);
-module.exports = Transformer;
+module.exports = mongoose.model("Transformer", transformerSchema);
