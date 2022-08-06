@@ -45,8 +45,8 @@ exports.addTransformer = catchAsync(async (req, res, next) => {
 });
 
 exports.updateTransformer = catchAsync(async (req, res, next) => {
-  console.log(numberToString);
-  const transformer = await Transformer.findByIdAndUpdate(
+  console.log(req.params);
+  const transformer = await Transformer.findOneAndUpdate(
     req.params.id,
     req.body,
     {
@@ -63,11 +63,7 @@ exports.updateTransformer = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllTransformers = catchAsync(async (req, res, next) => {
-  const countDocuments = await Transformer.countDocuments();
-  let numberToString = countDocuments.toString();
-  console.log(numberToString);
   const transformers = await Transformer.find({}, { _id: false, __v: false });
-  console.log(transformers.length);
   res.status(201).json({
     status: "success",
     total: transformers.length,
@@ -79,6 +75,13 @@ exports.getAllTransformers = catchAsync(async (req, res, next) => {
 
 exports.deleteTransformers = catchAsync(async (req, res, next) => {
   await Transformer.deleteMany();
+  res.status(200).json({
+    status: "Success",
+  });
+});
+
+exports.deleteTransformer = catchAsync(async (req, res, next) => {
+  await Transformer.findOneAndDelete(req.params.id);
   res.status(200).json({
     status: "Success",
   });

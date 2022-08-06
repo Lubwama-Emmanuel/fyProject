@@ -85,8 +85,8 @@ function generate(n) {
   return ("" + number).substring(add);
 }
 transformerSchema.pre("save", async function (next) {
-  const countDocuments = await Transformer.countDocuments();
-  let numberToString = countDocuments.toString();
+  // const countDocuments = await Transformer.countDocuments();
+  // let numberToString = countDocuments.toString();
   console.log("Reached pre save");
   return (this.transformerId = `TRANS-${generate(5)}`);
 });
